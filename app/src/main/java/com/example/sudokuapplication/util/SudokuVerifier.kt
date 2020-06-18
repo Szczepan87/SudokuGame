@@ -10,22 +10,12 @@ class SudokuVerifier {
 
     private fun isSquareCorrect(board: Board): Boolean {
         val sublist = mutableListOf<Int>()
-        for (i in 0 until 9) {
-            sublist.addAll(board.board[i].subList(0, 3))
-            if ((i + 1) % 3 == 0) {
-                if (!isInputCorrect(sublist)) return false else sublist.clear()
-            }
-        }
-        for (i in 0 until 9){
-            sublist.addAll(board.board[i].subList(3, 6))
-            if ((i + 1) % 3 == 0) {
-                if (!isInputCorrect(sublist)) return false else sublist.clear()
-            }
-        }
-        for (i in 0 until 9){
-            sublist.addAll(board.board[i].subList(6,9))
-            if ((i+1) % 3 == 0){
-                if (!isInputCorrect(sublist)) return false else sublist.clear()
+        for (col in 0 until SQUARE_SIZE step SQUARE_SIZE) {
+            for (row in 0 until BOARD_SIZE) {
+                sublist.addAll(board.board[row].subList(col, col + SQUARE_SIZE))
+                if ((row + 1) % SQUARE_SIZE == 0) {
+                    if (!isInputCorrect(sublist)) return false else sublist.clear()
+                }
             }
         }
         return true
@@ -33,7 +23,7 @@ class SudokuVerifier {
 
     private fun isRowCorrect(board: Board): Boolean {
         val sublist = mutableListOf<Int>()
-        for (i in 0 until 9) {
+        for (i in 0 until BOARD_SIZE) {
             if (!isInputCorrect(board.board[i])) return false
             else sublist.clear()
         }
@@ -42,7 +32,7 @@ class SudokuVerifier {
 
     private fun isColumnCorrect(board: Board): Boolean {
         val sublist = mutableListOf<Int>()
-        for (i in 0 until 9) {
+        for (i in 0 until BOARD_SIZE) {
             board.board.forEach { sublist.add(it[i]) }
             if (!isInputCorrect(sublist)) return false
             else sublist.clear()
