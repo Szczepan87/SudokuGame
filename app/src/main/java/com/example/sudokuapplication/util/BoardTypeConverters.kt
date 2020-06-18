@@ -1,7 +1,6 @@
 package com.example.sudokuapplication.util
 
 import androidx.room.TypeConverter
-import com.example.sudokuapplication.model.Board
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -14,6 +13,6 @@ class BoardTypeConverters {
 
     @TypeConverter
     fun restoreBoard(stringBoard: String): List<List<Int>> {
-        return Gson().fromJson(stringBoard, object : TypeToken<Board>() {}.type)
+        return Gson().fromJson(stringBoard, object : TypeToken<List<List<Int>>>() {}.type)
     }
 }

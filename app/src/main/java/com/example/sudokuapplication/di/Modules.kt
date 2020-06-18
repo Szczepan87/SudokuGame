@@ -30,4 +30,4 @@ private fun provideSudokuApi() = Retrofit.Builder()
     .create(SudokuApi::class.java)
 
 private fun provideDatabase(context: Context) =
-    Room.databaseBuilder(context, SudokuDatabase::class.java, "sudoku_db")
+    Room.databaseBuilder(context, SudokuDatabase::class.java, "sudoku_db").build()

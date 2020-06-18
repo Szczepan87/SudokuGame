@@ -7,5 +7,5 @@ import retrofit2.http.GET
 interface SudokuApi {
 
     @GET("board?difficulty=easy")
-    suspend fun getEasySudoku(): Deferred<Board>
+    fun getEasySudoku(): Deferred<Board>
 }
