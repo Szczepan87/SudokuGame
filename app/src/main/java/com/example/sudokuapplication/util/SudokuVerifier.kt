@@ -10,48 +10,30 @@ class SudokuVerifier {
 
     private fun isSquareCorrect(board: Board): Boolean {
         val sublist = mutableListOf<Int>()
-        sublist.addAll(board.board[0].subList(0,2))
-        sublist.addAll(board.board[1].subList(0,2))
-        sublist.addAll(board.board[2].subList(0,2))
-        if (!isInputCorrect(sublist)) return false else sublist.clear()
-        sublist.addAll(board.board[3].subList(0,2))
-        sublist.addAll(board.board[4].subList(0,2))
-        sublist.addAll(board.board[5].subList(0,2))
-        if (!isInputCorrect(sublist)) return false else sublist.clear()
-        sublist.addAll(board.board[6].subList(0,2))
-        sublist.addAll(board.board[7].subList(0,2))
-        sublist.addAll(board.board[8].subList(0,2))
-        if (!isInputCorrect(sublist)) return false else sublist.clear()
-        sublist.addAll(board.board[0].subList(3,5))
-        sublist.addAll(board.board[1].subList(3,5))
-        sublist.addAll(board.board[2].subList(3,5))
-        if (!isInputCorrect(sublist)) return false else sublist.clear()
-        sublist.addAll(board.board[3].subList(3,5))
-        sublist.addAll(board.board[4].subList(3,5))
-        sublist.addAll(board.board[5].subList(3,5))
-        if (!isInputCorrect(sublist)) return false else sublist.clear()
-        sublist.addAll(board.board[6].subList(3,5))
-        sublist.addAll(board.board[7].subList(3,5))
-        sublist.addAll(board.board[8].subList(3,5))
-        if (!isInputCorrect(sublist)) return false else sublist.clear()
-        sublist.addAll(board.board[0].subList(6,8))
-        sublist.addAll(board.board[1].subList(6,8))
-        sublist.addAll(board.board[2].subList(6,8))
-        if (!isInputCorrect(sublist)) return false else sublist.clear()
-        sublist.addAll(board.board[3].subList(6,8))
-        sublist.addAll(board.board[4].subList(6,8))
-        sublist.addAll(board.board[5].subList(6,8))
-        if (!isInputCorrect(sublist)) return false else sublist.clear()
-        sublist.addAll(board.board[6].subList(6,8))
-        sublist.addAll(board.board[7].subList(6,8))
-        sublist.addAll(board.board[8].subList(6,8))
-        if (!isInputCorrect(sublist)) return false else sublist.clear()
+        for (i in 0 until 9) {
+            sublist.addAll(board.board[i].subList(0, 3))
+            if ((i + 1) % 3 == 0) {
+                if (!isInputCorrect(sublist)) return false else sublist.clear()
+            }
+        }
+        for (i in 0 until 9){
+            sublist.addAll(board.board[i].subList(3, 6))
+            if ((i + 1) % 3 == 0) {
+                if (!isInputCorrect(sublist)) return false else sublist.clear()
+            }
+        }
+        for (i in 0 until 9){
+            sublist.addAll(board.board[i].subList(6,9))
+            if ((i+1) % 3 == 0){
+                if (!isInputCorrect(sublist)) return false else sublist.clear()
+            }
+        }
         return true
     }
 
     private fun isRowCorrect(board: Board): Boolean {
         val sublist = mutableListOf<Int>()
-        for (i in 0 until 9){
+        for (i in 0 until 9) {
             if (!isInputCorrect(board.board[i])) return false
             else sublist.clear()
         }
