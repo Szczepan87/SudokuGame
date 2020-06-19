@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 @Entity
 data class Board(
     @SerializedName("board")
-    val board: List<List<Int>>
+    val board: MutableList<MutableList<Int>>
 ){
     @PrimaryKey(autoGenerate = false)
     var id: Int = 0

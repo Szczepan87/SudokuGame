@@ -10,7 +10,9 @@ import kotlinx.coroutines.launch
 
 class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
 
-    private val _board = repository.databaseBoard()
+    private val _board = MutableLiveData<Board>()
+
+    // repository.databaseBoard()
     val board: LiveData<Board>
         get() = _board
 
@@ -20,6 +22,7 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
 
     init {
         _selectedFieldLiveData.postValue(Pair(-1, -1))
+        // _board.postValue(Board())
         if (isDatabaseEmpty()) {
             loadRemoteBoardData()
             // TODO overwrites constantly
@@ -28,17 +31,25 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
 
     private fun isDatabaseEmpty(): Boolean {
         return _board.value == null ||
-                _board.value == Board(listOf<List<Int>>())
+                _board.value == Board(mutableListOf())
     }
 
     fun loadRemoteBoardData() {
         viewModelScope.launch {
             val remoteBoard = repository.loadRemoteBoard()
             repository.saveBoardToDatabase(remoteBoard)
+            _board.postValue(remoteBoard)
         }
     }
 
     fun updateSelectedField(row: Int, column: Int) {
         _selectedFieldLiveData.postValue(Pair(row, column))
+    }
+
+    fun updateFieldValue(value: Int) {
+        val board: MutableList<MutableList<Int>> = _board.value?.board ?: mutableListOf()
+        val selectedFieldCoord = selectedFieldLiveData.value
+        board[selectedFieldCoord?.first ?: -1 ][selectedFieldCoord?.second ?: -1] = value
+        _board.postValue(Board(board))
     }
 }

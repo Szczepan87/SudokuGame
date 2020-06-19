@@ -1,6 +1,7 @@
 package com.example.sudokuapplication.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.sudokuapplication.R
@@ -22,6 +23,14 @@ class SudokuGameActivity : AppCompatActivity(), BoardCustomView.OnTouchListener 
         sudokuViewModel.selectedFieldLiveData.observe(
             this,
             Observer { updateSelectedFieldOnBoard(it) })
+        sudokuViewModel.board.observe(this, Observer {
+            updateBoard(it.board)
+            Log.d("ACTIVITY", "Updating UI with ${it.board}")
+        })
+    }
+
+    private fun updateBoard(board: MutableList<MutableList<Int>>) {
+        sudoku_board_custom_view.updateBoard(board)
     }
 
     private fun updateSelectedFieldOnBoard(field: Pair<Int, Int>?) = field?.let {

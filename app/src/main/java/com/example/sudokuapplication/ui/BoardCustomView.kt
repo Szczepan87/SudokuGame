@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -13,6 +14,9 @@ import com.example.sudokuapplication.util.SQUARE_SIZE
 import kotlin.math.min
 
 class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
+
+    private var board: MutableList<MutableList<Int>> =
+        mutableListOf()
 
     private var cellSize = 0F
 
@@ -38,6 +42,12 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
         color = resources.getColor(R.color.colorDisabledCell)
     }
 
+    private val textpaint = Paint().apply {
+        style = Paint.Style.FILL_AND_STROKE
+        color = Color.BLACK
+        textSize = 24F
+    }
+
     private var listener: BoardCustomView.OnTouchListener? = null
 
     private var rowSelected = -1
@@ -54,7 +64,7 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
     override fun onDraw(canvas: Canvas) {
         cellSize = (width / BOARD_SIZE).toFloat()
         drawLines(canvas)
-        selectCell(canvas)
+        handleCell(canvas)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -87,9 +97,7 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
         }
     }
 
-    private fun selectCell(canvas: Canvas) {
-        if (columnSelected == -1 || rowSelected == -1) return
-
+    private fun handleCell(canvas: Canvas) {
         for (row in 0..BOARD_SIZE) {
             for (column in 0..BOARD_SIZE) {
                 if (row == rowSelected && column == columnSelected) {
@@ -97,6 +105,7 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
                 }
             }
         }
+        fillCells(canvas)
     }
 
     private fun colourCell(canvas: Canvas, row: Int, column: Int, paint: Paint) {
@@ -110,6 +119,25 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
         )
     }
 
+    fun fillCells(canvas: Canvas) {
+        for (row in 0 until BOARD_SIZE) {
+            for (column in 0 until BOARD_SIZE) {
+                val stringValue = board[row][column].toString()
+
+                val textBounds = Rect()
+                textpaint.getTextBounds(stringValue, 0, stringValue.length, textBounds)
+                val textWidth = textpaint.measureText(stringValue)
+                val textHeight = textBounds.height()
+
+                // setting text in center of cell
+                canvas.drawText(
+                    stringValue, (column * cellSize) + cellSize / 2 - textWidth / 2,
+                    (row * cellSize) + cellSize / 2 - textHeight / 2, textpaint
+                )
+            }
+        }
+    }
+
     fun updateSelectedCell(row: Int, column: Int) {
         rowSelected = row
         columnSelected = column
@@ -118,6 +146,11 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
 
     fun registerListener(listener: BoardCustomView.OnTouchListener) {
         this.listener = listener
+    }
+
+    fun updateBoard(board: MutableList<MutableList<Int>>) {
+        this.board.addAll(board)
+        invalidate()
     }
 
     interface OnTouchListener {
