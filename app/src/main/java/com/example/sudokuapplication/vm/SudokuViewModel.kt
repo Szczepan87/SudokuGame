@@ -48,8 +48,8 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
 
     fun updateFieldValue(value: Int) {
         val board: MutableList<MutableList<Int>> = _board.value?.board ?: mutableListOf()
-        val selectedFieldCoord = selectedFieldLiveData.value
-        board[selectedFieldCoord?.first ?: -1 ][selectedFieldCoord?.second ?: -1] = value
+        val selectedFieldCoord = selectedFieldLiveData.value ?: Pair(0,0)
+        board[selectedFieldCoord.first][selectedFieldCoord.second] = value
         _board.postValue(Board(board))
     }
 }

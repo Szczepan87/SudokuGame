@@ -50,8 +50,8 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private var listener: BoardCustomView.OnTouchListener? = null
 
-    private var rowSelected = -1
-    private var columnSelected = -1
+    private var rowSelected = 0
+    private var columnSelected = 0
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -98,8 +98,8 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
     private fun handleCell(canvas: Canvas) {
-        for (row in 0..BOARD_SIZE) {
-            for (column in 0..BOARD_SIZE) {
+        for (row in 0 until  BOARD_SIZE) {
+            for (column in 0 until BOARD_SIZE) {
                 if (row == rowSelected && column == columnSelected) {
                     colourCell(canvas, row, column, selectedCellPaint)
                 }
@@ -132,8 +132,8 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
 
                 // setting text in center of cell
                 canvas.drawText(
-                    stringValue, (column * cellSize) - cellSize / 2 - textWidth / 2,
-                    (row * cellSize) - cellSize / 2 + textHeight / 2, textpaint
+                    stringValue, (column * cellSize) + cellSize / 2 - textWidth / 2,
+                    (row * cellSize) + cellSize / 2 + textHeight / 2, textpaint
                 )
             }
         }

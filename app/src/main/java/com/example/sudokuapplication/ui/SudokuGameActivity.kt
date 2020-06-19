@@ -2,6 +2,7 @@ package com.example.sudokuapplication.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.sudokuapplication.R
@@ -17,7 +18,18 @@ class SudokuGameActivity : AppCompatActivity(), BoardCustomView.OnTouchListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // sudokuViewModel.board.observe(this, Observer { board -> textView.text = board.toString() })
+        val keypad = listOf<Button>(
+            erase_button,
+            one_button,
+            two_button,
+            three_button,
+            four_button,
+            five_button,
+            six_button,
+            seven_button,
+            eight_button,
+            nine_button
+        )
 
         sudoku_board_custom_view.registerListener(this)
         sudokuViewModel.selectedFieldLiveData.observe(
@@ -27,6 +39,9 @@ class SudokuGameActivity : AppCompatActivity(), BoardCustomView.OnTouchListener 
             updateBoard(it.board)
             Log.d("ACTIVITY", "Updating UI with ${it.board}")
         })
+        keypad.forEachIndexed { index, button -> button.setOnClickListener {
+            sudokuViewModel.updateFieldValue(index)
+        } }
     }
 
     private fun updateBoard(board: MutableList<MutableList<Int>>) {
