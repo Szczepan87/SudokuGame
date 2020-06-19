@@ -45,7 +45,7 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
     private val textpaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
         color = Color.BLACK
-        textSize = 24F
+        textSize = 48F
     }
 
     private var listener: BoardCustomView.OnTouchListener? = null
@@ -120,9 +120,10 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
     fun fillCells(canvas: Canvas) {
+        if (board.size == 0) return
         for (row in 0 until BOARD_SIZE) {
             for (column in 0 until BOARD_SIZE) {
-                val stringValue = board[row][column].toString()
+                val stringValue = if (board[row][column] == 0) "" else board[row][column].toString()
 
                 val textBounds = Rect()
                 textpaint.getTextBounds(stringValue, 0, stringValue.length, textBounds)
@@ -131,8 +132,8 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
 
                 // setting text in center of cell
                 canvas.drawText(
-                    stringValue, (column * cellSize) + cellSize / 2 - textWidth / 2,
-                    (row * cellSize) + cellSize / 2 - textHeight / 2, textpaint
+                    stringValue, (column * cellSize) - cellSize / 2 - textWidth / 2,
+                    (row * cellSize) - cellSize / 2 + textHeight / 2, textpaint
                 )
             }
         }
