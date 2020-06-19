@@ -1,4 +1,4 @@
-package com.example.sudokuapplication
+package com.example.sudokuapplication.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

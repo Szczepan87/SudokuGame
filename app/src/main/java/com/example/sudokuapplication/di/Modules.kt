@@ -2,10 +2,10 @@ package com.example.sudokuapplication.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.sudokuapplication.SudokuViewModel
 import com.example.sudokuapplication.repository.SudokuApi
 import com.example.sudokuapplication.repository.SudokuDatabase
 import com.example.sudokuapplication.repository.SudokuRepository
+import com.example.sudokuapplication.vm.SudokuViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
