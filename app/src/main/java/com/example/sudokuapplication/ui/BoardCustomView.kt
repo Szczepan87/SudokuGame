@@ -38,6 +38,8 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
         color = resources.getColor(R.color.colorDisabledCell)
     }
 
+    private var listener: BoardCustomView.OnTouchListener? = null
+
     private var rowSelected = -1
     private var columnSelected = -1
 
@@ -66,9 +68,9 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
     private fun handleClick(x: Float, y: Float) {
-        rowSelected = (y / cellSize).toInt()
-        columnSelected = (x / cellSize).toInt()
-        invalidate()
+        val selectedRow = (y / cellSize).toInt()
+        val selectedColumn = (x / cellSize).toInt()
+        listener?.onCellTouch(selectedRow, selectedColumn)
     }
 
     private fun drawLines(canvas: Canvas) {
@@ -106,5 +108,19 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
             (row + 1) * cellSize,
             paint
         )
+    }
+
+    fun updateSelectedCell(row: Int, column: Int) {
+        rowSelected = row
+        columnSelected = column
+        invalidate()
+    }
+
+    fun registerListener(listener: BoardCustomView.OnTouchListener) {
+        this.listener = listener
+    }
+
+    interface OnTouchListener {
+        fun onCellTouch(row: Int, column: Int)
     }
 }
