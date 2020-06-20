@@ -1,6 +1,9 @@
 package com.example.sudokuapplication.ui
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -38,9 +41,27 @@ class SudokuGameActivity : AppCompatActivity(), BoardCustomView.OnTouchListener 
         sudokuViewModel.board.observe(this, Observer {
             updateBoard(it)
         })
-        keypad.forEachIndexed { index, button -> button.setOnClickListener {
-            sudokuViewModel.updateFieldValue(index)
-        } }
+        keypad.forEachIndexed { index, button ->
+            button.setOnClickListener {
+                sudokuViewModel.updateFieldValue(index)
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.new_game_menu_item -> {
+                sudokuViewModel.loadRemoteBoardData()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun updateBoard(board: MutableList<Cell>) {

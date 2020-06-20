@@ -1,6 +1,5 @@
 package com.example.sudokuapplication.vm
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,11 +36,8 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
     fun loadRemoteBoardData() {
         viewModelScope.launch {
             val remoteBoard: Board = repository.loadRemoteBoard()
-            Log.d("VIEW MODEL", "Loaded $remoteBoard")
             repository.saveBoardToDatabase(remoteBoard.board.toMutableListOfCells())
-            Log.d("VIEW MODEL", "Saved ${remoteBoard.board}")
             _board.postValue(remoteBoard.board.toMutableListOfCells())
-            Log.d("VIEW MODEL", "Posted value ${remoteBoard.board}")
         }
     }
 
