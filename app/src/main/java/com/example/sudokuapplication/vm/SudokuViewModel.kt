@@ -25,11 +25,9 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
     init {
         _selectedFieldLiveData.postValue(Pair(-1, -1))
         _board.postValue(mutableListOf())
-        loadRemoteBoardData()
-//        if (isDatabaseEmpty()) {
-//            loadRemoteBoardData()
-//            // TODO overwrites constantly
-//        } else _board.postValue(repository.databaseBoard())
+        if (isDatabaseEmpty()) {
+            loadRemoteBoardData()
+        } else _board.postValue(repository.databaseBoard())
     }
 
     private fun isDatabaseEmpty(): Boolean {
@@ -57,5 +55,6 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
         val selectedFieldCoord = selectedFieldLiveData.value ?: Pair(0, 0)
         mutableBoard.getCell(selectedFieldCoord.first, selectedFieldCoord.second).value = value
         _board.postValue(mutableBoard)
+        viewModelScope.launch { repository.saveBoardToDatabase(board.value ?: mutableListOf()) }
     }
 }
