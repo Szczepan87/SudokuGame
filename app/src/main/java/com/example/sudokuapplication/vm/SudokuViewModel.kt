@@ -35,7 +35,12 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
 
     fun loadRemoteBoardData() {
         viewModelScope.launch {
-            val remoteBoard: Board = repository.loadRemoteBoard()
+            val remoteBoard: Board = try {
+                repository.loadRemoteBoard()
+            } catch (e: Exception) {
+                // TODO inform about error
+                Board(mutableListOf())
+            }
             repository.saveBoardToDatabase(remoteBoard.board.toMutableListOfCells())
             _board.postValue(remoteBoard.board.toMutableListOfCells())
         }

@@ -10,6 +10,7 @@ fun MutableList<Cell>.getCell(row: Int, column: Int): Cell {
 
 fun MutableList<MutableList<Int>>.toMutableListOfCells(): MutableList<Cell> {
     val editableBoard = mutableListOf<Cell>()
+    if (this.isNullOrEmpty()) return editableBoard
     for (row in 0 until BOARD_SIZE) {
         for (column in 0 until BOARD_SIZE) {
             val value = this[row][column]
