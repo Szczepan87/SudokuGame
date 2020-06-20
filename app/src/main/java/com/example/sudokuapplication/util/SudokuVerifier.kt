@@ -10,12 +10,12 @@ class SudokuVerifier {
 
     private fun isSquareCorrect(board: MutableList<Cell>): Boolean {
         val sublist = mutableListOf<Int>()
-        for (column in 0 until BOARD_SIZE step SQUARE_SIZE){
+        for (column in 0 until BOARD_SIZE step SQUARE_SIZE) {
             for (row in 0 until BOARD_SIZE) {
-                sublist.add(board.getCell(row, column).value)
-                sublist.add(board.getCell(row, column + 1).value)
-                sublist.add(board.getCell(row, column + 2).value)
-                if (row + 1 % 3 == 0){
+                for (sqrCol in 0 until SQUARE_SIZE) {
+                    sublist.add(board.getCell(row, column + sqrCol).value)
+                }
+                if (row + 1 % SQUARE_SIZE == 0) {
                     if (!isInputCorrect(sublist)) return false else sublist.clear()
                 }
             }

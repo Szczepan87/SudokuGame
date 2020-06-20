@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.sudokuapplication.model.Board
 import com.example.sudokuapplication.model.Cell
 import com.example.sudokuapplication.repository.SudokuRepository
+import com.example.sudokuapplication.util.SudokuVerifier
 import com.example.sudokuapplication.util.getCell
 import com.example.sudokuapplication.util.toMutableListOfCells
 import kotlinx.coroutines.launch
@@ -57,5 +58,9 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
         mutableBoard.getCell(selectedFieldCoord.first, selectedFieldCoord.second).value = value
         _board.postValue(mutableBoard)
         viewModelScope.launch { repository.saveBoardToDatabase(board.value ?: mutableListOf()) }
+    }
+
+    fun isSudokuSolved(): Boolean {
+        return SudokuVerifier().isSudokuSolved(board.value ?: mutableListOf())
     }
 }

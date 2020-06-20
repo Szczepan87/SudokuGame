@@ -46,6 +46,15 @@ class SudokuGameActivity : AppCompatActivity(), BoardCustomView.OnTouchListener 
                 sudokuViewModel.updateFieldValue(index)
             }
         }
+        check_button.setOnClickListener {
+            if (sudokuViewModel.isSudokuSolved()) SolvedSudokuDialog().show(
+                supportFragmentManager,
+                "solved"
+            ) else WrongSudokuDialog().show(
+                supportFragmentManager,
+                "not solved"
+            )
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
