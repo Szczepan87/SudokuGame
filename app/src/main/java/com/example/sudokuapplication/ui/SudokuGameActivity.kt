@@ -1,11 +1,11 @@
 package com.example.sudokuapplication.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.sudokuapplication.R
+import com.example.sudokuapplication.model.Cell
 import com.example.sudokuapplication.vm.SudokuViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.get
@@ -36,15 +36,14 @@ class SudokuGameActivity : AppCompatActivity(), BoardCustomView.OnTouchListener 
             this,
             Observer { updateSelectedFieldOnBoard(it) })
         sudokuViewModel.board.observe(this, Observer {
-            updateBoard(it.board)
-            Log.d("ACTIVITY", "Updating UI with ${it.board}")
+            updateBoard(it)
         })
         keypad.forEachIndexed { index, button -> button.setOnClickListener {
             sudokuViewModel.updateFieldValue(index)
         } }
     }
 
-    private fun updateBoard(board: MutableList<MutableList<Int>>) {
+    private fun updateBoard(board: MutableList<Cell>) {
         sudoku_board_custom_view.updateBoard(board)
     }
 

@@ -6,16 +6,19 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.example.sudokuapplication.R
+import com.example.sudokuapplication.model.Cell
 import com.example.sudokuapplication.util.BOARD_SIZE
 import com.example.sudokuapplication.util.SQUARE_SIZE
+import com.example.sudokuapplication.util.getCell
 import kotlin.math.min
 
 class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 
-    private var board: MutableList<MutableList<Int>> =
+    private var board: MutableList<Cell> =
         mutableListOf()
 
     private var cellSize = 0F
@@ -63,8 +66,8 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
 
     override fun onDraw(canvas: Canvas) {
         cellSize = (width / BOARD_SIZE).toFloat()
-        drawLines(canvas)
         handleCell(canvas)
+        drawLines(canvas)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -98,10 +101,13 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
     private fun handleCell(canvas: Canvas) {
-        for (row in 0 until  BOARD_SIZE) {
+        if (board.isEmpty()) return
+        for (row in 0 until BOARD_SIZE) {
             for (column in 0 until BOARD_SIZE) {
                 if (row == rowSelected && column == columnSelected) {
                     colourCell(canvas, row, column, selectedCellPaint)
+                } else if (board.getCell(row, column).isEditable.not()) {
+                    colourCell(canvas, row, column, nonEditableCell)
                 }
             }
         }
@@ -123,7 +129,8 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
         if (board.size == 0) return
         for (row in 0 until BOARD_SIZE) {
             for (column in 0 until BOARD_SIZE) {
-                val stringValue = if (board[row][column] == 0) "" else board[row][column].toString()
+                val cell = board.getCell(row, column)
+                val stringValue = if (cell.value == 0) "" else cell.value.toString()
 
                 val textBounds = Rect()
                 textpaint.getTextBounds(stringValue, 0, stringValue.length, textBounds)
@@ -149,8 +156,9 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
         this.listener = listener
     }
 
-    fun updateBoard(board: MutableList<MutableList<Int>>) {
+    fun updateBoard(board: MutableList<Cell>) {
         this.board.addAll(board)
+        Log.d("CUSTOM VIEW", "Updated with: $board")
         invalidate()
     }
 

@@ -15,12 +15,12 @@ class SudokuRepository(
 ) {
 
     suspend fun loadRemoteBoard(): Board {
-        return withContext(Dispatchers.IO) { sudokuApi.getEasySudoku().await() }
+        return withContext(Dispatchers.IO) { return@withContext sudokuApi.getEasySudoku().await() }
     }
 
     fun databaseBoard(): MutableList<Cell> {
         val boardString = sharedPreferences.getString(BOARD_KEY, "")
-        return Gson().fromJson(boardString, object : TypeToken<MutableList<Cell>>() {}.type)
+        return Gson().fromJson(boardString, object : TypeToken<MutableList<Cell>>() {}.type) ?: mutableListOf()
     }
 
     suspend fun saveBoardToDatabase(board: MutableList<Cell>) {
