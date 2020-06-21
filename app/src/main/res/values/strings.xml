@@ -7,4 +7,5 @@
     <string name="woah">Woah!</string>
     <string name="not_solved">This sudoku is not solved correctly!</string>
     <string name="keep_trying">OK, I\'ll keep trying…</string>
+    <string name="oops">Oops!</string>
 </resources>

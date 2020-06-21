@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.sudokuapplication.R
 import com.example.sudokuapplication.model.Cell
+import com.example.sudokuapplication.ui.dialogs.NoBoardDialog
 import com.example.sudokuapplication.ui.dialogs.SolvedSudokuDialog
 import com.example.sudokuapplication.ui.dialogs.WrongSudokuDialog
 import com.example.sudokuapplication.util.SOLVED_DIALOG_TAG
@@ -46,6 +47,9 @@ class SudokuGameActivity : AppCompatActivity(),
             Observer { updateSelectedFieldOnBoard(it) })
 
         sudokuViewModel.board.observe(this, Observer {
+            if (it.isNullOrEmpty()) {
+                NoBoardDialog().show(supportFragmentManager, "no board")
+            }
             updateBoard(it)
         })
 
