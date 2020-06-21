@@ -11,11 +11,11 @@ class SolvedSudokuDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         with(builder) {
-            setTitle("Nice!")
-            setMessage("You got this! Sudoku is solved correctly!")
+            setTitle(getString(R.string.nice))
+            setMessage(getString(R.string.you_got_it))
             setIcon(R.drawable.ic_baseline_checked_circle_48)
             setPositiveButton(
-                "Deamn, I'm good!"
+                getString(R.string.im_good)
             ) { dialog, _ -> dialog.dismiss() }
         }
         return builder.create()

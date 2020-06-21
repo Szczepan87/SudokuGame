@@ -3,7 +3,8 @@ package com.example.sudokuapplication.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.sudokuapplication.repository.SudokuApi
-import com.example.sudokuapplication.repository.SudokuRepository
+import com.example.sudokuapplication.repository.SudokuRepositoryImpl
+import com.example.sudokuapplication.util.BASE_URL
 import com.example.sudokuapplication.util.BOARD_KEY
 import com.example.sudokuapplication.vm.SudokuViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -15,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 val repositoryModule = module {
     single { provideSudokuApi() }
     single { provideSharedPrefs(androidContext()) }
-    single { SudokuRepository(get(), get()) }
+    single { SudokuRepositoryImpl(get(), get()) }
 }
 
 val viewModelModule = module {
@@ -24,7 +25,7 @@ val viewModelModule = module {
 
 private fun provideSudokuApi() = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
-    .baseUrl("https://sugoku.herokuapp.com/")
+    .baseUrl(BASE_URL)
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .build()
     .create(SudokuApi::class.java)

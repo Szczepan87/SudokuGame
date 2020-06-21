@@ -6,12 +6,12 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.example.sudokuapplication.R
 import com.example.sudokuapplication.model.Cell
 import com.example.sudokuapplication.util.BOARD_SIZE
+import com.example.sudokuapplication.util.EMPTY_VALUE
 import com.example.sudokuapplication.util.SQUARE_SIZE
 import com.example.sudokuapplication.util.getCell
 import kotlin.math.min
@@ -130,7 +130,7 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
         for (row in 0 until BOARD_SIZE) {
             for (column in 0 until BOARD_SIZE) {
                 val cell = board.getCell(row, column)
-                val stringValue = if (cell.value == 0) "" else cell.value.toString()
+                val stringValue = if (cell.value == EMPTY_VALUE) "" else cell.value.toString()
 
                 val textBounds = Rect()
                 textpaint.getTextBounds(stringValue, 0, stringValue.length, textBounds)
@@ -158,7 +158,6 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
 
     fun updateBoard(board: MutableList<Cell>) {
         this.board.addAll(board)
-        Log.d("CUSTOM VIEW", "Updated with: $board")
         invalidate()
     }
 

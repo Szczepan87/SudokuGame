@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">SudokuApplication</string>
     <string name="new_game">New game</string>
+    <string name="nice">Nice!</string>
+    <string name="you_got_it">You got this! Sudoku is solved correctly!</string>
+    <string name="im_good">Damn, I\'m good!</string>
+    <string name="woah">Woah!</string>
+    <string name="not_solved">This sudoku is not solved correctly!</string>
+    <string name="keep_trying">OK, I\'ll keep trying…</string>
 </resources>

@@ -6,13 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sudokuapplication.model.Board
 import com.example.sudokuapplication.model.Cell
-import com.example.sudokuapplication.repository.SudokuRepository
+import com.example.sudokuapplication.repository.SudokuRepositoryImpl
+import com.example.sudokuapplication.util.OUTSIDE_BOARD
 import com.example.sudokuapplication.util.SudokuVerifier
 import com.example.sudokuapplication.util.getCell
 import com.example.sudokuapplication.util.toMutableListOfCells
 import kotlinx.coroutines.launch
 
-class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
+class SudokuViewModel(private val repository: SudokuRepositoryImpl) : ViewModel() {
 
     private val _board = MutableLiveData<MutableList<Cell>>()
     val board: LiveData<MutableList<Cell>>
@@ -23,7 +24,7 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
         get() = _selectedFieldLiveData
 
     init {
-        _selectedFieldLiveData.postValue(Pair(-1, -1))
+        _selectedFieldLiveData.postValue(Pair(OUTSIDE_BOARD, OUTSIDE_BOARD))
         _board.postValue(mutableListOf())
         if (isDatabaseEmpty()) {
             loadRemoteBoardData()
@@ -54,7 +55,7 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
 
     fun updateFieldValue(value: Int) {
         val mutableBoard: MutableList<Cell> = _board.value ?: mutableListOf()
-        val selectedFieldCoord = selectedFieldLiveData.value ?: Pair(0, 0)
+        val selectedFieldCoord = selectedFieldLiveData.value ?: Pair(OUTSIDE_BOARD, OUTSIDE_BOARD)
         mutableBoard.getCell(selectedFieldCoord.first, selectedFieldCoord.second).value = value
         _board.postValue(mutableBoard)
         viewModelScope.launch { repository.saveBoardToDatabase(_board.value ?: mutableListOf()) }

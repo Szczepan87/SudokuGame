@@ -11,6 +11,8 @@ import com.example.sudokuapplication.R
 import com.example.sudokuapplication.model.Cell
 import com.example.sudokuapplication.ui.dialogs.SolvedSudokuDialog
 import com.example.sudokuapplication.ui.dialogs.WrongSudokuDialog
+import com.example.sudokuapplication.util.SOLVED_DIALOG_TAG
+import com.example.sudokuapplication.util.UNSOLVED_DIALOG_TAG
 import com.example.sudokuapplication.vm.SudokuViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.get
@@ -38,25 +40,36 @@ class SudokuGameActivity : AppCompatActivity(),
         )
 
         sudoku_board_custom_view.registerListener(this)
+
         sudokuViewModel.selectedFieldLiveData.observe(
             this,
             Observer { updateSelectedFieldOnBoard(it) })
+
         sudokuViewModel.board.observe(this, Observer {
             updateBoard(it)
         })
+
+        handleKeypad(keypad)
+        handleCheckButton(check_button)
+    }
+
+    private fun handleKeypad(keypad: List<Button>) {
         keypad.forEachIndexed { index, button ->
             button.setOnClickListener {
                 sudokuViewModel.updateFieldValue(index)
             }
         }
-        check_button.setOnClickListener {
+    }
+
+    private fun handleCheckButton(checkButton: Button) {
+        checkButton.setOnClickListener {
             if (sudokuViewModel.isSudokuSolved()) SolvedSudokuDialog()
                 .show(
+                    supportFragmentManager,
+                    SOLVED_DIALOG_TAG
+                ) else WrongSudokuDialog().show(
                 supportFragmentManager,
-                "solved"
-            ) else WrongSudokuDialog().show(
-                supportFragmentManager,
-                "not solved"
+                UNSOLVED_DIALOG_TAG
             )
         }
     }
