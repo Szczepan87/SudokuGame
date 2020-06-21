@@ -12,6 +12,7 @@ import com.example.sudokuapplication.model.Cell
 import com.example.sudokuapplication.ui.dialogs.NoBoardDialog
 import com.example.sudokuapplication.ui.dialogs.SolvedSudokuDialog
 import com.example.sudokuapplication.ui.dialogs.WrongSudokuDialog
+import com.example.sudokuapplication.util.ERROR_DIALOG_TAG
 import com.example.sudokuapplication.util.SOLVED_DIALOG_TAG
 import com.example.sudokuapplication.util.UNSOLVED_DIALOG_TAG
 import com.example.sudokuapplication.vm.SudokuViewModel
@@ -51,7 +52,7 @@ class SudokuGameActivity : AppCompatActivity(),
         })
 
         sudokuViewModel.hasError.observe(this, Observer {
-            if (it) NoBoardDialog().show(supportFragmentManager, "no board")
+            if (it) NoBoardDialog().show(supportFragmentManager, ERROR_DIALOG_TAG)
         })
 
         handleKeypad(keypad)

@@ -34,7 +34,7 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
         textSize = 48F
     }
 
-    private var listener: BoardCustomView.OnTouchListener? = null
+    private var listener: OnTouchListener? = null
 
     private var rowSelected = OUTSIDE_BOARD
     private var columnSelected = OUTSIDE_BOARD
@@ -146,7 +146,7 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
         invalidate()
     }
 
-    fun registerListener(listener: BoardCustomView.OnTouchListener) {
+    fun registerListener(listener: OnTouchListener) {
         this.listener = listener
     }
 
