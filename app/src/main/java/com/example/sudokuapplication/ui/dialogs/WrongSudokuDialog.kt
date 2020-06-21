@@ -1,4 +1,4 @@
-package com.example.sudokuapplication.ui
+package com.example.sudokuapplication.ui.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog

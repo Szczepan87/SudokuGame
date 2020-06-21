@@ -9,11 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.sudokuapplication.R
 import com.example.sudokuapplication.model.Cell
+import com.example.sudokuapplication.ui.dialogs.SolvedSudokuDialog
+import com.example.sudokuapplication.ui.dialogs.WrongSudokuDialog
 import com.example.sudokuapplication.vm.SudokuViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.get
 
-class SudokuGameActivity : AppCompatActivity(), BoardCustomView.OnTouchListener {
+class SudokuGameActivity : AppCompatActivity(),
+    BoardCustomView.OnTouchListener {
 
     private val sudokuViewModel: SudokuViewModel = get()
 
@@ -47,7 +50,8 @@ class SudokuGameActivity : AppCompatActivity(), BoardCustomView.OnTouchListener 
             }
         }
         check_button.setOnClickListener {
-            if (sudokuViewModel.isSudokuSolved()) SolvedSudokuDialog().show(
+            if (sudokuViewModel.isSudokuSolved()) SolvedSudokuDialog()
+                .show(
                 supportFragmentManager,
                 "solved"
             ) else WrongSudokuDialog().show(

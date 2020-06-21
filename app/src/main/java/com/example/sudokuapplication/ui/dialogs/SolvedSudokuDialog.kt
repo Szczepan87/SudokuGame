@@ -1,4 +1,4 @@
-package com.example.sudokuapplication.ui
+package com.example.sudokuapplication.ui.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -18,6 +18,6 @@ class SolvedSudokuDialog : DialogFragment() {
                 "Deamn, I'm good!"
             ) { dialog, _ -> dialog.dismiss() }
         }
-        return super.onCreateDialog(savedInstanceState)
+        return builder.create()
     }
 }
