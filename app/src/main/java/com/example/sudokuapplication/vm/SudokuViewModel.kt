@@ -57,7 +57,7 @@ class SudokuViewModel(private val repository: SudokuRepository) : ViewModel() {
         val selectedFieldCoord = selectedFieldLiveData.value ?: Pair(0, 0)
         mutableBoard.getCell(selectedFieldCoord.first, selectedFieldCoord.second).value = value
         _board.postValue(mutableBoard)
-        viewModelScope.launch { repository.saveBoardToDatabase(board.value ?: mutableListOf()) }
+        viewModelScope.launch { repository.saveBoardToDatabase(_board.value ?: mutableListOf()) }
     }
 
     fun isSudokuSolved(): Boolean {

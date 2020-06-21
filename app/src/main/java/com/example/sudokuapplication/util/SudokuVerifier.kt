@@ -46,6 +46,7 @@ class SudokuVerifier {
     }
 
     private fun isInputCorrect(list: List<Int>): Boolean {
+        if (list.contains(0)) return false
         val set = mutableSetOf<Int>()
         set.addAll(list)
         return set.size == list.size
