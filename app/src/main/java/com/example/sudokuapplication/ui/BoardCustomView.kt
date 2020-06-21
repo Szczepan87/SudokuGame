@@ -10,10 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.example.sudokuapplication.R
 import com.example.sudokuapplication.model.Cell
-import com.example.sudokuapplication.util.BOARD_SIZE
-import com.example.sudokuapplication.util.EMPTY_VALUE
-import com.example.sudokuapplication.util.SQUARE_SIZE
-import com.example.sudokuapplication.util.getCell
+import com.example.sudokuapplication.util.*
 import kotlin.math.min
 
 class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
@@ -23,29 +20,15 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private var cellSize = 0F
 
-    private val boldLinePaint = Paint().apply {
-        style = Paint.Style.STROKE
-        color = Color.BLACK
-        strokeWidth = 4F
-    }
+    private val boldLinePaint = getLinePaint(4F)
 
-    private val normalLinePaint = Paint().apply {
-        style = Paint.Style.STROKE
-        color = Color.BLACK
-        strokeWidth = 2F
-    }
+    private val normalLinePaint = getLinePaint(2F)
 
-    private val selectedCellPaint = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
-        color = resources.getColor(R.color.colorAccent)
-    }
+    private val selectedCellPaint = getCellPaint(resources.getColor(R.color.colorAccent))
 
-    private val nonEditableCell = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
-        color = resources.getColor(R.color.colorDisabledCell)
-    }
+    private val nonEditableCell = getCellPaint(resources.getColor(R.color.colorDisabledCell))
 
-    private val textpaint = Paint().apply {
+    private val textPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
         color = Color.BLACK
         textSize = 48F
@@ -53,8 +36,8 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private var listener: BoardCustomView.OnTouchListener? = null
 
-    private var rowSelected = 0
-    private var columnSelected = 0
+    private var rowSelected = OUTSIDE_BOARD
+    private var columnSelected = OUTSIDE_BOARD
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -125,7 +108,7 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
         )
     }
 
-    fun fillCells(canvas: Canvas) {
+    private fun fillCells(canvas: Canvas) {
         if (board.size == 0) return
         for (row in 0 until BOARD_SIZE) {
             for (column in 0 until BOARD_SIZE) {
@@ -133,17 +116,28 @@ class BoardCustomView(context: Context, attributeSet: AttributeSet) : View(conte
                 val stringValue = if (cell.value == EMPTY_VALUE) "" else cell.value.toString()
 
                 val textBounds = Rect()
-                textpaint.getTextBounds(stringValue, 0, stringValue.length, textBounds)
-                val textWidth = textpaint.measureText(stringValue)
+                textPaint.getTextBounds(stringValue, 0, stringValue.length, textBounds)
+                val textWidth = textPaint.measureText(stringValue)
                 val textHeight = textBounds.height()
 
                 // setting text in center of cell
                 canvas.drawText(
                     stringValue, (column * cellSize) + cellSize / 2 - textWidth / 2,
-                    (row * cellSize) + cellSize / 2 + textHeight / 2, textpaint
+                    (row * cellSize) + cellSize / 2 + textHeight / 2, textPaint
                 )
             }
         }
+    }
+
+    private fun getLinePaint(stroke: Float) = Paint().apply {
+        style = Paint.Style.STROKE
+        color = Color.BLACK
+        strokeWidth = stroke
+    }
+
+    private fun getCellPaint(color: Int) = Paint().apply {
+        style = Paint.Style.FILL_AND_STROKE
+        this.color = color
     }
 
     fun updateSelectedCell(row: Int, column: Int) {
