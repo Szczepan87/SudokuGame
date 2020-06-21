@@ -47,10 +47,11 @@ class SudokuGameActivity : AppCompatActivity(),
             Observer { updateSelectedFieldOnBoard(it) })
 
         sudokuViewModel.board.observe(this, Observer {
-            if (it.isNullOrEmpty()) {
-                NoBoardDialog().show(supportFragmentManager, "no board")
-            }
             updateBoard(it)
+        })
+
+        sudokuViewModel.hasError.observe(this, Observer {
+            if (it) NoBoardDialog().show(supportFragmentManager, "no board")
         })
 
         handleKeypad(keypad)

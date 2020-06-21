@@ -12,12 +12,12 @@ class NoBoardDialog : DialogFragment() {
         val builder = AlertDialog.Builder(requireActivity())
 
         with(builder) {
-            setTitle(getString(R.string.oops))
-            setMessage("Something went wrong with loading new board. Please check your internet connection and start new game.")
+            setTitle(getString(R.string.dialog_error_title))
+            setMessage(getString(R.string.dialog_error_message))
             setIcon(R.drawable.ic_baseline_wifi_48)
             setPositiveButton(
-                "OK, thanks!"
-            ) { dialog, _ -> dialog?.dismiss() }
+                getString(R.string.dialog_error_ok_button)
+            ) { dialog, _ -> dialog.dismiss() }
         }
         return builder.create()
     }

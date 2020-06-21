@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">SudokuApplication</string>
-    <string name="new_game">New game</string>
-    <string name="nice">Nice!</string>
-    <string name="you_got_it">You got this! Sudoku is solved correctly!</string>
-    <string name="im_good">Damn, I\'m good!</string>
-    <string name="woah">Woah!</string>
-    <string name="not_solved">This sudoku is not solved correctly!</string>
-    <string name="keep_trying">OK, I\'ll keep trying…</string>
-    <string name="oops">Oops!</string>
+    <string name="new_game_menu_item_text">New game</string>
+    <string name="dialog_solved_title">Nice!</string>
+    <string name="dialog_solved_message">You got this! Sudoku is solved correctly!</string>
+    <string name="dialog_solved_ok_button">Damn, I\'m good!</string>
+    <string name="dialog_unsolved_title">Woah!</string>
+    <string name="dialog_unsolved_message">This sudoku is not solved correctly!</string>
+    <string name="dialog_unsolved_ok_button">OK, I\'ll keep trying…</string>
+    <string name="dialog_error_title">Oops!</string>
+    <string name="dialog_error_message">Something went wrong with loading new board. Please check your internet connection and start new game.</string>
+    <string name="dialog_error_ok_button">OK, thanks!</string>
+    <string name="check_button_text">Check</string>
+    <string name="back_button_text">Back</string>
 </resources>

@@ -11,11 +11,11 @@ class SolvedSudokuDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         with(builder) {
-            setTitle(getString(R.string.nice))
-            setMessage(getString(R.string.you_got_it))
+            setTitle(getString(R.string.dialog_solved_title))
+            setMessage(getString(R.string.dialog_solved_message))
             setIcon(R.drawable.ic_baseline_checked_circle_48)
             setPositiveButton(
-                getString(R.string.im_good)
+                getString(R.string.dialog_solved_ok_button)
             ) { dialog, _ -> dialog.dismiss() }
         }
         return builder.create()

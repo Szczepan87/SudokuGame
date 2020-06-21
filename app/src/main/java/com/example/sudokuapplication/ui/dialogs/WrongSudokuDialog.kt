@@ -13,11 +13,11 @@ class WrongSudokuDialog : DialogFragment() {
         val builder = AlertDialog.Builder(requireActivity())
 
         with(builder) {
-            setTitle(getString(R.string.woah))
-            setMessage(getString(R.string.not_solved))
+            setTitle(getString(R.string.dialog_unsolved_title))
+            setMessage(getString(R.string.dialog_unsolved_message))
             setIcon(R.drawable.ic_baseline_error_outline_48)
             setPositiveButton(
-                getString(R.string.keep_trying)
+                getString(R.string.dialog_unsolved_ok_button)
             ) { dialog, _ -> dialog.dismiss() }
         }
         return builder.create()

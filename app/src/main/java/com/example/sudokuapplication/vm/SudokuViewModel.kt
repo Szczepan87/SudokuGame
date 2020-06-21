@@ -23,6 +23,10 @@ class SudokuViewModel(private val repository: SudokuRepositoryImpl) : ViewModel(
     val selectedFieldLiveData: LiveData<Pair<Int, Int>>
         get() = _selectedFieldLiveData
 
+    private val _hasError = MutableLiveData<Boolean>(false)
+    val hasError: LiveData<Boolean>
+        get() = _hasError
+
     init {
         _selectedFieldLiveData.postValue(Pair(OUTSIDE_BOARD, OUTSIDE_BOARD))
         _board.postValue(mutableListOf())
@@ -40,6 +44,7 @@ class SudokuViewModel(private val repository: SudokuRepositoryImpl) : ViewModel(
             val remoteBoard: Board = try {
                 repository.loadRemoteBoard()
             } catch (e: Exception) {
+                _hasError.postValue(true)
                 Board(mutableListOf())
             }
             repository.saveBoardToDatabase(remoteBoard.board.toMutableListOfCells())
