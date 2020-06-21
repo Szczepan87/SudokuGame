@@ -45,7 +45,11 @@ class SudokuViewModel(private val repository: SudokuRepositoryImpl) : ViewModel(
                 repository.loadRemoteBoard()
             } catch (e: Exception) {
                 _hasError.postValue(true)
-                Board(mutableListOf())
+                if (isDatabaseEmpty()) {
+                    Board(mutableListOf())
+                } else {
+                    return@launch
+                }
             }
             repository.saveBoardToDatabase(remoteBoard.board.toMutableListOfCells())
             _board.postValue(remoteBoard.board.toMutableListOfCells())
