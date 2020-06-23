@@ -15,7 +15,7 @@ class SudokuVerifier {
                 for (sqrCol in 0 until SQUARE_SIZE) {
                     sublist.add(board.getCell(row, column + sqrCol).value)
                 }
-                if (row + 1 % SQUARE_SIZE == 0) {
+                if ((row + 1) % SQUARE_SIZE == 0) {
                     if (!isInputCorrect(sublist)) return false else sublist.clear()
                 }
             }
